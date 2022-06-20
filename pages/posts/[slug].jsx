@@ -30,7 +30,7 @@ function selelctCoponent(components) {
   });
 }
 
-export default function Posts({ post, postItems }) {
+export default function Posts({ post = null, postItems = []}) {
   const router = useRouter();
 
   const { Components, featuredImage, title, description, tags } =
