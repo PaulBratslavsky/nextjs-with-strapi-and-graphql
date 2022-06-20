@@ -6,6 +6,9 @@
   content: none;
 } 
 
+.height-with-menu {
+  height: calc(100vh - 100px);
+}
 
 html,
 body {

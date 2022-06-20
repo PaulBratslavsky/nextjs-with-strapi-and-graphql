@@ -7,6 +7,7 @@ import client from "../../graphql-client";
 import Video from "../../components/Video";
 import Code from "../../components/Code";
 import Markdown from "../../components/Markdown";
+import PostsNav from "../../components/PostsNav";
 
 function selelctCoponent(components) {
   return components.map((component) => {
@@ -28,25 +29,22 @@ function selelctCoponent(components) {
   });
 }
 
-export default function Posts({ post }) {
+export default function Posts({ post, postItems }) {
   const router = useRouter();
 
-  const { title, Components } = post.data.attributes;
-  const { slug } = router.query;
+  const { Components } = post.post.data.attributes;
 
   return (
-    <div className="card-body">
-      <h1>{title}</h1>
-      <span>{slug}</span>
-      <h2 className="card-title">{"test"}</h2>
-
-      <div>{selelctCoponent(Components)}</div>
-
-      <div className="card-actions justify-end">
-        <button className="btn btn-primary" onClick={() => router.push("/")}>
-          Back
-        </button>
+    <div className="h-screen grid grid-cols-5 gap-3">
+      <div className="height-with-menu overflow-scroll">
+        <PostsNav current={router.query.slug} postItems={postItems.posts.data} />
       </div>
+
+      <main className="height-with-menu col-span-4 overflow-scroll my-6">
+        <div className="card-body p-0">
+          <div>{selelctCoponent(Components)}</div>
+        </div>
+      </main>
     </div>
   );
 }
@@ -59,6 +57,7 @@ export async function getStaticPaths() {
           data {
             id
             attributes {
+              title
               slug
             }
           }
@@ -78,7 +77,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const { data } = await client.query({
+  const { data: post } = await client.query({
     query: gql`
       query {
         post(slug: "${params.slug}") {
@@ -131,9 +130,26 @@ export async function getStaticProps({ params }) {
     `,
   });
 
+  const { data: postItems } = await client.query({
+    query: gql`
+      query {
+        posts {
+          data {
+            id
+            attributes {
+              title
+              slug
+            }
+          }
+        }
+      }
+    `,
+  });
+
   return {
     props: {
-      post: data.post,
+      post: post,
+      postItems: postItems,
     },
   };
 }

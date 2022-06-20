@@ -1,11 +1,10 @@
+import Header from "../components/Header";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div>
-      <div className="navbar bg-neutral text-neutral-content">
-        <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
-      </div>
+    <div className="h-screen p-3 overflow-hidden">
+      <Header />
       <Component {...pageProps} />
     </div>
   );
