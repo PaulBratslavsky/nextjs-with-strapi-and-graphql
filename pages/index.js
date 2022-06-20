@@ -1,8 +1,60 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
 
-export default function Home() {
+import { useRouter } from "next/router";
+
+const appBaseUrl = "http://localhost:3000";
+
+import { gql } from "@apollo/client";
+import client from "../graphql-client";
+
+export default function Home({ posts }) {
+  const router = useRouter();
+
+  if (!posts) return <h2>No posts found</h2>;
+
+  const { data } = posts;
+
+  function displayCard(data) {
+    return data.map((post) => {
+      console.log(post);
+      const { url } = post.attributes.featuredImage.data.attributes;
+      return (
+        <div
+          key={post.id}
+          className="card lg:card-side bg-base-100 shadow-xl mb-6"
+        >
+          <figure>
+            <Image
+              src={url}
+              alt={post.attributes.title}
+              width={300}
+              height={300}
+            />
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title">{post.attributes.title}</h2>
+            <p>{post.attributes.description}</p>
+            <span>{post.attributes.slug}</span>
+            <span>{url}</span>
+            <span>{appBaseUrl + "/posts/" + post.attributes.slug}</span>
+            <div className="card-actions justify-end">
+              <button
+                className="btn btn-primary"
+                onClick={() =>
+                  router.push(appBaseUrl + "/posts/" + post.attributes.slug)
+                }
+              >
+                Read More
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    });
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -12,44 +64,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        <div className="artboard">{displayCard(data)}</div>
       </main>
 
       <footer className={styles.footer}>
@@ -58,12 +73,50 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
+  );
+}
+
+export async function getStaticProps() {
+  const { data } = await client.query({
+    query: gql`
+      query {
+        posts {
+          data {
+            id
+            attributes {
+              title
+              slug
+              description
+
+              featuredImage {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+          }
+          meta {
+            pagination {
+              total
+            }
+          }
+        }
+      }
+    `,
+  });
+
+  return {
+    props: {
+      posts: data.posts,
+    },
+  };
 }
