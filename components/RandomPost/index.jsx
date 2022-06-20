@@ -36,6 +36,8 @@ export default function RandomPost() {
     });
   }
 
+  console.log(data, "data");
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
   if (!data) return <h1>no data</h1>;
