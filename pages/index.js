@@ -1,19 +1,35 @@
+import React, { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 
 import { useRouter } from "next/router";
 
-const appBaseUrl = process.env.baseURL;
-
 import { gql } from "@apollo/client";
 import client from "../graphql-client";
+import Tags from "../components/Tags";
+import TagsSelect from "../components/TagsSelect";
+import RandomPost from "../components/RandomPost";
+import AuthorBio from "../components/AuthorBio";
 
-export default function Home({ posts }) {
+export default function Home({ posts, tags }) {
   const router = useRouter();
 
-  if (!posts) return <h2>No posts found</h2>;
+  const [selectedTag, setSelectedTag] = useState(null);
+  const [postsData, setPostsData] = useState(posts);
 
-  const { data } = posts;
+  const { data } = postsData;
+
+  function filterPosts(tag) {
+    setSelectedTag(tag);
+
+    if (tag !== null) {
+      const filtered = posts.data.filter((post) => {
+        return post.attributes.tags.data.some((t) => t.id === tag?.id);
+      });
+
+      setPostsData({ data: filtered });
+    } else setPostsData(posts);
+  }
 
   function displayCard(data) {
     return data.map((post) => {
@@ -33,13 +49,15 @@ export default function Home({ posts }) {
           </figure>
           <div className="card-body">
             <h2 className="card-title">{post.attributes.title}</h2>
+
+            <Tags tags={post.attributes.tags.data} selected={selectedTag} />
+
             <p>{post.attributes.description}</p>
+
             <div className="card-actions justify-end">
               <button
                 className="btn btn-primary"
-                onClick={() =>
-                  router.push(appBaseUrl + "/posts/" + post.attributes.slug)
-                }
+                onClick={() => router.push("/posts/" + post.attributes.slug)}
               >
                 Read More
               </button>
@@ -59,7 +77,23 @@ export default function Home({ posts }) {
       </Head>
 
       <div className="grid grid-cols-7 gap-3">
-        <div className="height-with-menu col-span-2 overflow-scroll">link</div>
+        <div className="flex flex-col justify-between height-with-menu col-span-2 overflow-scroll my-6">
+          <div>
+            <AuthorBio
+              avatar={"https://api.lorem.space/image/face?hash=55350"}
+              name={"Paul Brats"}
+              bio={"I'm a software developer"}
+            />
+            <TagsSelect
+              tags={tags.data}
+              indicator
+              onClick={filterPosts}
+              totalPosts={posts.data.length}
+              selectedTag={selectedTag}
+            />
+          </div>
+          <RandomPost />
+        </div>
 
         <main className="height-with-menu col-span-5 overflow-scroll my-6">
           {displayCard(data)}
@@ -70,7 +104,7 @@ export default function Home({ posts }) {
 }
 
 export async function getStaticProps() {
-  const { data } = await client.query({
+  const { data: postsData } = await client.query({
     query: gql`
       query {
         posts {
@@ -80,6 +114,15 @@ export async function getStaticProps() {
               title
               slug
               description
+
+              tags {
+                data {
+                  id
+                  attributes {
+                    name
+                  }
+                }
+              }
 
               featuredImage {
                 data {
@@ -100,9 +143,30 @@ export async function getStaticProps() {
     `,
   });
 
+  const { data: tagsData } = await client.query({
+    query: gql`
+      query {
+        tags {
+          data {
+            id
+            attributes {
+              name
+              posts {
+                data {
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+  });
+
   return {
     props: {
-      posts: data.posts,
+      posts: postsData.posts,
+      tags: tagsData.tags,
     },
   };
 }

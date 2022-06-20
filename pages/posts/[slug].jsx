@@ -8,6 +8,7 @@ import Video from "../../components/Video";
 import Code from "../../components/Code";
 import Markdown from "../../components/Markdown";
 import PostsNav from "../../components/PostsNav";
+import Tags from "../../components/Tags";
 
 function selelctCoponent(components) {
   return components.map((component) => {
@@ -32,7 +33,8 @@ function selelctCoponent(components) {
 export default function Posts({ post, postItems }) {
   const router = useRouter();
 
-  const { Components } = post.post.data.attributes;
+  const { Components, featuredImage, title, description, tags } =
+    post.post.data.attributes;
 
   return (
     <div className="h-screen grid grid-cols-5 gap-3">
@@ -43,8 +45,23 @@ export default function Posts({ post, postItems }) {
         />
       </div>
 
-      <main className="height-with-menu col-span-4 overflow-scroll my-6">
+      <main className="height-with-menu col-span-4 overflow-scroll my-6 px-6">
         <div className="card-body p-0">
+          <div
+            className="hero h-full rounded-xl shadow-lg overflow-hidden"
+            style={{
+              backgroundImage: `url(${featuredImage.data.attributes.url}?w=1000&h=800)`,
+            }}
+          >
+            <div className="hero-overlay bg-opacity-60"></div>
+            <div className="hero-content justify-start w-full text-neutral-content  py-6">
+              <div className="">
+                <h1 className="mb-5 text-5xl font-bold">{title}</h1>
+                <p className="mb-5">{description}</p>
+                <Tags tags={tags.data} />
+              </div>
+            </div>
+          </div>
           <div>{selelctCoponent(Components)}</div>
         </div>
       </main>
@@ -89,6 +106,15 @@ export async function getStaticProps({ params }) {
       attributes {
         title
         description
+
+        tags {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
 
         seo {
           metaTitle

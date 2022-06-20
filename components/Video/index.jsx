@@ -1,5 +1,4 @@
 export default function Video({ data }) {
-    console.log(data);
     return <iframe
       width="560"
       height="315"

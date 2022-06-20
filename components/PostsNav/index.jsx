@@ -8,7 +8,7 @@ export default function PostsNav({ current, postItems }) {
     <div className="my-6">
       <div>
         <button
-          className="btn btn-primary w-full my-3"
+          className="btn btn-primary w-full mb-3"
           onClick={() => router.push("/")}
         >
           Back
