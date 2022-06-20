@@ -11,7 +11,7 @@ export default function PostsNav({ current, postItems }) {
           className="btn btn-primary w-full mb-3"
           onClick={() => router.push("/")}
         >
-          Back
+          Go Back
         </button>
       </div>
       <ul className="menu bg-base-100">
