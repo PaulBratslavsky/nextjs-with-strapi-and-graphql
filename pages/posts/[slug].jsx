@@ -37,7 +37,10 @@ export default function Posts({ post, postItems }) {
   return (
     <div className="h-screen grid grid-cols-5 gap-3">
       <div className="height-with-menu overflow-scroll">
-        <PostsNav current={router.query.slug} postItems={postItems.posts.data} />
+        <PostsNav
+          current={router.query.slug}
+          postItems={postItems.posts.data}
+        />
       </div>
 
       <main className="height-with-menu col-span-4 overflow-scroll my-6">
