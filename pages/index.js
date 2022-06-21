@@ -31,7 +31,7 @@ export default function Home({ posts, tags }) {
     } else setPostsData(posts);
   }
 
-  function displayCard(data) {
+  function displayCardHorizontal(data) {
     return data.map((post) => {
       const { url } = post.attributes.featuredImage.data.attributes;
       return (
@@ -53,6 +53,40 @@ export default function Home({ posts, tags }) {
             <Tags tags={post.attributes.tags.data} selected={selectedTag} />
 
             <p>{post.attributes.description}</p>
+
+            <div className="card-actions justify-end">
+              <button
+                className="btn btn-primary"
+                onClick={() => router.push("/posts/" + post.attributes.slug)}
+              >
+                Read More
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    });
+  }
+
+  function displayCardVertical(data) {
+    return data.map((post) => {
+      const { url } = post.attributes.featuredImage.data.attributes;
+      return (
+        <div key={post.id} className="card w-auto bg-base-100 shadow-xl">
+          <figure>
+            <Image
+              src={url}
+              alt={post.attributes.title}
+              width={400}
+              height={225}
+            />
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title">{post.attributes.title}</h2>
+            <p>{post.attributes.description}</p>
+
+            <Tags tags={post.attributes.tags.data} selected={selectedTag} />
+
 
             <div className="card-actions justify-end">
               <button
@@ -96,7 +130,9 @@ export default function Home({ posts, tags }) {
         </div>
 
         <main className="height-with-menu col-span-5 overflow-scroll my-6">
-          {displayCard(data)}
+          <div className="grid grid-cols-3 gap-4">
+            {displayCardVertical(data)}
+          </div>
         </main>
       </div>
     </div>

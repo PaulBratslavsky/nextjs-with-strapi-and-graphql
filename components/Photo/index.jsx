@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 
 export default function Photo({ data }) {
-  console.log(data);
 
   const { title, description, alt, height = 500, width = 1000, image } = data;
 
