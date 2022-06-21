@@ -105,77 +105,77 @@ export async function getStaticProps({ params }) {
     query: gql`
       query {
         post(slug: "${params.slug}") {
-   	 data {
-      id 
-      attributes {
-        title
-        description
-
-        tags {
           data {
-            id
+            id 
             attributes {
-              name
-            }
-          }
-        }
+              title
+              description
 
-        seo {
-          metaTitle
-          metaDescription
-          keywords
-        }
-        
-        Components {
-          ... on ComponentMyComponentsVideo {
-            id
-            title
-            description
-            link
-            videoID
-          }
-          
-          ... on ComponentMyComponentsCode {
-            id
-            name
-            src
-            type
-            content
-          }
+              tags {
+                data {
+                  id
+                  attributes {
+                    name
+                  }
+                }
+              }
 
-          ... on ComponentMyComponentsImage {
-            id
-            title
-            description
-            alt
-            height
-            width
-            image {
-              data {
-                id
-                attributes {
-                  url
+              seo {
+                metaTitle
+                metaDescription
+                keywords
+              }
+              
+              Components {
+                ... on ComponentMyComponentsVideo {
+                  id
+                  title
+                  description
+                  link
+                  videoID
+                }
+                
+                ... on ComponentMyComponentsCode {
+                  id
+                  name
+                  src
+                  type
+                  content
+                }
+
+                ... on ComponentMyComponentsImage {
+                  id
+                  title
+                  description
+                  alt
+                  height
+                  width
+                  image {
+                    data {
+                      id
+                      attributes {
+                        url
+                      }
+                    }
+                  }
+                }
+
+                ... on ComponentMyComponentsMarkdown {
+                  id
+                  content
+                }
+
+              }
+              featuredImage {
+                data {
+                  attributes {
+                    url
+                  }
                 }
               }
             }
           }
-
-          ... on ComponentMyComponentsMarkdown {
-            id
-            content
-          }
-
         }
-        featuredImage {
-          data {
-            attributes {
-              url
-            }
-          }
-        }
-      }
-    }
-  }
       }
     `,
   });
