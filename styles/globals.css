@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .height-with-menu {
   height: calc(100vh - 100px);
 }
@@ -29,4 +28,3 @@ a {
  * Based on the okaidia theme: https://github.com/PrismJS/prism/blob/gh-pages/themes/prism-okaidia.css
  * @author ericwbailey
  */
-

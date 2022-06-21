@@ -9,6 +9,7 @@ import Code from "../../components/Code";
 import Markdown from "../../components/Markdown";
 import PostsNav from "../../components/PostsNav";
 import Tags from "../../components/Tags";
+import Photo from "../../components/Photo";
 
 function selelctCoponent(components) {
   return components.map((component) => {
@@ -24,13 +25,16 @@ function selelctCoponent(components) {
       case "ComponentMyComponentsMarkdown":
         return <Markdown data={component} />;
 
+      case "ComponentMyComponentsImage":
+        return <Photo data={component} />;
+
       default:
         return null;
     }
   });
 }
 
-export default function Posts({ post = null, postItems = []}) {
+export default function Posts({ post = null, postItems = [] }) {
   const router = useRouter();
 
   const { Components, featuredImage, title, description, tags } =
@@ -137,6 +141,23 @@ export async function getStaticProps({ params }) {
             src
             type
             content
+          }
+
+          ... on ComponentMyComponentsImage {
+            id
+            title
+            description
+            alt
+            height
+            width
+            image {
+              data {
+                id
+                attributes {
+                  url
+                }
+              }
+            }
           }
 
           ... on ComponentMyComponentsMarkdown {
