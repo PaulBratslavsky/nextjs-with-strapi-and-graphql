@@ -10,6 +10,7 @@ import Tags from "../components/Tags";
 import TagsSelect from "../components/TagsSelect";
 import RandomPost from "../components/RandomPost";
 import AuthorBio from "../components/AuthorBio";
+import Slider from "../components/Slider";
 
 export default function Home({ posts, tags }) {
   const router = useRouter();
@@ -87,7 +88,6 @@ export default function Home({ posts, tags }) {
 
             <Tags tags={post.attributes.tags.data} selected={selectedTag} />
 
-
             <div className="card-actions justify-end">
               <button
                 className="btn btn-primary"
@@ -130,6 +130,7 @@ export default function Home({ posts, tags }) {
         </div>
 
         <main className="height-with-menu col-span-5 overflow-scroll my-6">
+          <Slider />
           <div className="grid grid-cols-3 gap-4">
             {displayCardVertical(data)}
           </div>
