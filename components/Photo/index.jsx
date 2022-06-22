@@ -3,12 +3,12 @@ import Image from "next/image";
 
 export default function Photo({ data }) {
 
-  const { title, description, alt, height = 500, width = 1000, image } = data;
+  const { title, showTitle = false, description, showDescription = false, alt, height = 500, width = 1000, image } = data;
 
 
   return (
     <div className="my-6">
-      {title && <h2 className="text-xl">{title}</h2>}
+      {title && showTitle && <h2 className="text-2xl mb-3">Title: {title}</h2>}
 
       {image.data !== null  && (
         <Image
@@ -21,9 +21,9 @@ export default function Photo({ data }) {
         />
       )}
 
-      {description && (
+      {description  && showDescription && (
         <div className="my-2">
-          <p>{description}</p>
+          <p className="text-2xl">Description: {description}</p>
         </div>
       )}
     </div>

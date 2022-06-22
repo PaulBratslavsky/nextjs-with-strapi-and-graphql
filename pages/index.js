@@ -32,43 +32,6 @@ export default function Home({ posts, tags }) {
     } else setPostsData(posts);
   }
 
-  function displayCardHorizontal(data) {
-    return data.map((post) => {
-      const { url } = post.attributes.featuredImage.data.attributes;
-      return (
-        <div
-          key={post.id}
-          className="card lg:card-side bg-base-100 shadow-xl mb-6"
-        >
-          <figure>
-            <Image
-              src={url}
-              alt={post.attributes.title}
-              width={300}
-              height={300}
-            />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">{post.attributes.title}</h2>
-
-            <Tags tags={post.attributes.tags.data} selected={selectedTag} />
-
-            <p>{post.attributes.description}</p>
-
-            <div className="card-actions justify-end">
-              <button
-                className="btn btn-primary"
-                onClick={() => router.push("/posts/" + post.attributes.slug)}
-              >
-                Read More
-              </button>
-            </div>
-          </div>
-        </div>
-      );
-    });
-  }
-
   function displayCardVertical(data) {
     return data.map((post) => {
       const { url } = post.attributes.featuredImage.data.attributes;
@@ -130,7 +93,7 @@ export default function Home({ posts, tags }) {
         </div>
 
         <main className="height-with-menu col-span-5 overflow-scroll my-6">
-          <Slider />
+          <Slider data={posts} />
           <div className="grid grid-cols-3 gap-4">
             {displayCardVertical(data)}
           </div>

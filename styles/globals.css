@@ -6,6 +6,10 @@
   height: calc(100vh - 100px);
 }
 
+.image-wrapper img {
+  object-fit: cover;
+}
+
 html,
 body {
   padding: 0;
