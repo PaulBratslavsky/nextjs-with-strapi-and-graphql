@@ -1,48 +1,71 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Slider({ data }) {
-  console.log(data, "from slider");
+  const [selected, setSelected] = useState(0);
 
-  const [selected, setSelected] = React.useState(0);
+  function renderSlider(data, length) {
+    const { title, featuredImage, slug } = data.attributes;
+    const { url } = featuredImage.data.attributes;
 
-  function nextSlide() {
-    setSelected(data.length + 1);
-  }
+    function moveBack(e) {
+      e.stopPropagation();
+      if (selected !== 0) setSelected((prevState) => prevState - 1);
+      else setSelected(length - 1);
+    }
 
-  function prevSlide() {
-    setSelected(data.length - 1);
-  }
+    function moveForward(e) {
+      e.stopPropagation();
+      if (selected === length - 1) setSelected(0);
+      else setSelected((prevState) => prevState + 1);
+    }
 
-  function renderSlider({ data }) {
-    console.log(data, "from slider");
-
-    return data.map((item, index) => {
-      console.log(item, index);
-      const { title, description, featuredImage, slug } = item.attributes;
-      const { url } = featuredImage.data.attributes;
-      return (
-        <div key={index} id={item.id} className="carousel-item relative w-full">
+    return (
+      <Link href={`/posts/${slug}`}>
+        <div
+          id={data.id}
+          className="carousel-item relative w-full hover:cursor-pointer"
+        >
           <div className="image-wrapper">
             <Image
               src={url}
               alt={title}
               layout="intrinsic"
-                width={1920}
-                height={500}
+              width={1920}
+              height={500}
               className="w-full"
             />
           </div>
 
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <button onClick={prevSlide} className="btn btn-circle">❮</button>
-            <button onClick={nextSlide} className="btn btn-circle">❯</button>
+            <button
+              className="btn btn-circle bg-stone-800 hover:bg-primary"
+              onClick={moveBack}
+            >
+              ❮
+            </button>
+
+            <div className="flex justify-center items-center bg-primary px-6 rounded-md">
+              <h2 className="text-2xl text-slate-100">{title}</h2>
+            </div>
+
+            <button
+              className="btn btn-circle bg-stone-800 hover:bg-primary"
+              onClick={moveForward}
+            >
+              ❯
+            </button>
           </div>
         </div>
-      );
-    });
+      </Link>
+    );
   }
   return (
-    <div className="carousel w-full mb-6 rounded-2xl">{renderSlider(data)}</div>
+    <div className="relative">
+      <div className="carousel w-full mb-6 rounded-2xl">
+        {renderSlider(data.data[selected], data.data.length)}
+      </div>
+    </div>
   );
 }

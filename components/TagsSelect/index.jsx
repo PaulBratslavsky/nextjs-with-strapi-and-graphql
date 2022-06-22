@@ -23,7 +23,7 @@ export default function TagsSelect({
                 {tag.attributes.posts.data.length}
               </span>
             )}
-            <div className={`badge badge-lg ${isSelected ? "badge" : "badge-outline"}`}>
+            <div className={`badge badge-lg ${isSelected ? "badge bg-stone-800" : "badge-outline"}`}>
               {tag.attributes.name}
             </div>
           </button>
@@ -42,7 +42,7 @@ export default function TagsSelect({
         )}
         <div
           className={`badge badge-lg ${
-            selectedTag === null ? "badge" : "badge-outline"
+            selectedTag === null ? "badge bg-stone-800" : "badge-outline"
           }`}
         >
           All
