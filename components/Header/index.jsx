@@ -1,10 +1,13 @@
 import React from "react";
 
-export default function Header() {
+export default function Header({ setSidebarOpen }) {
   return (
     <div className="navbar bg-stone-800 text-neutral-content rounded-2xl">
       <div className="flex-none">
-        <button className="btn btn-square btn-ghost">
+        <button
+          className="btn btn-square btn-ghost"
+          onClick={() => setSidebarOpen(true)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

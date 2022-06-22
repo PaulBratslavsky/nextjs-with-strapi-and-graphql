@@ -76,7 +76,7 @@ export default function Home({ posts, tags }) {
       </Head>
 
       <Layout
-        header={<Header />}
+        header={(setSidebarOpen) => <Header setSidebarOpen={setSidebarOpen} />}
         sidebar={
           <MainPageSidebar
             posts={posts}
@@ -89,8 +89,7 @@ export default function Home({ posts, tags }) {
       >
         <div className="my-6">
           <Slider data={posts} />
-
-          <div className="grid mx-6 md:grid-cols-2 md:gap-3 md:mx-0 lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
+          <div className="grid mx-3 md:grid-cols-2 md:gap-3 md:mx-0 lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
             {displayCardVertical(data)}
           </div>
         </div>
@@ -99,45 +98,7 @@ export default function Home({ posts, tags }) {
   );
 }
 
-function flattenObj(data) {
-  const isObject = (data) =>
-    Object.prototype.toString.call(data) === "[object Object]";
-  const isArray = (data) =>
-    Object.prototype.toString.call(data) === "[object Array]";
 
-  const flatten = (data) => {
-    if (!data.attributes) return data;
-
-    return {
-      id: data.id,
-      ...data.attributes,
-    };
-  };
-
-  if (isArray(data)) {
-    return data.map((item) => flattenObj(item));
-  }
-
-  if (isObject(data)) {
-    if (isArray(data.data)) {
-      data = [...data.data];
-    } else if (isObject(data.data)) {
-      data = flatten({ ...data.data });
-    } else if (data.data === null) {
-      data = null;
-    } else {
-      data = flatten(data);
-    }
-
-    for (const key in data) {
-      data[key] = flattenObj(data[key]);
-    }
-
-    return data;
-  }
-
-  return data;
-}
 
 export async function getStaticProps() {
   const { data: postsData } = await client.query({
