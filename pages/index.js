@@ -7,10 +7,12 @@ import { useRouter } from "next/router";
 import { gql } from "@apollo/client";
 import client from "../graphql-client";
 import Tags from "../components/Tags";
-import TagsSelect from "../components/TagsSelect";
 import RandomPost from "../components/RandomPost";
-import AuthorBio from "../components/AuthorBio";
 import Slider from "../components/Slider";
+import Layout from "../components/Layout";
+import Header from "../components/Header";
+
+import MainPageSidebar from "../components/MainPageSidebar";
 
 export default function Home({ posts, tags }) {
   const router = useRouter();
@@ -36,7 +38,7 @@ export default function Home({ posts, tags }) {
     return data.map((post) => {
       const { url } = post.attributes.featuredImage.data.attributes;
       return (
-        <div key={post.id} className="card w-auto bg-base-100 shadow-xl">
+        <div key={post.id} className="card w-auto bg-base-100 shadow-xl mb-6">
           <figure>
             <Image
               src={url}
@@ -73,77 +75,69 @@ export default function Home({ posts, tags }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="grid grid-cols-7 gap-3">
-        <div className="flex flex-col justify-between height-with-menu col-span-2 overflow-scroll my-6">
-          <div>
-            <AuthorBio
-              avatar={"https://api.lorem.space/image/face?hash=55350"}
-              name={"Paul Brats"}
-              bio={"I'm a software developer"}
-            />
-            <TagsSelect
-              tags={tags.data}
-              indicator
-              onClick={filterPosts}
-              totalPosts={posts.data.length}
-              selectedTag={selectedTag}
-            />
-          </div>
-          <RandomPost />
-        </div>
-
-        <main className="height-with-menu col-span-5 overflow-scroll my-6">
-
+      <Layout
+        header={<Header />}
+        sidebar={
+          <MainPageSidebar
+            posts={posts}
+            tags={tags}
+            filterPosts={filterPosts}
+            selectedTag={selectedTag}
+          />
+        }
+        footer={<RandomPost />}
+      >
+        <div className="my-6">
           <Slider data={posts} />
-          
-          <div className="grid grid-cols-3 gap-4">
+
+          <div className="grid mx-6 md:grid-cols-2 md:gap-3 md:mx-0 lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
             {displayCardVertical(data)}
           </div>
-        </main>
-      </div>
+        </div>
+      </Layout>
     </div>
   );
 }
 
 function flattenObj(data) {
   const isObject = (data) =>
-      Object.prototype.toString.call(data) === "[object Object]";
+    Object.prototype.toString.call(data) === "[object Object]";
   const isArray = (data) =>
-      Object.prototype.toString.call(data) === "[object Array]";
-  
+    Object.prototype.toString.call(data) === "[object Array]";
+
   const flatten = (data) => {
-      if (!data.attributes) return data;
-  
-      return {
+    if (!data.attributes) return data;
+
+    return {
       id: data.id,
       ...data.attributes,
-      };
+    };
   };
-  
+
   if (isArray(data)) {
-      return data.map((item) => flattenObj(item));
+    return data.map((item) => flattenObj(item));
   }
-  
+
   if (isObject(data)) {
-      if (isArray(data.data)) {
+    if (isArray(data.data)) {
       data = [...data.data];
-      } else if (isObject(data.data)) {
+    } else if (isObject(data.data)) {
       data = flatten({ ...data.data });
-      } else if (data.data === null) {
+    } else if (data.data === null) {
       data = null;
-      } else {
+    } else {
       data = flatten(data);
-      }
-  
-      for (const key in data) {
-         data[key] = flattenObj(data[key]);
-      }
-  
-      return data;
+    }
+
+    for (const key in data) {
+      data[key] = flattenObj(data[key]);
+    }
+
+    return data;
   }
-  
+
   return data;
-  };
+}
 
 export async function getStaticProps() {
   const { data: postsData } = await client.query({
@@ -205,7 +199,6 @@ export async function getStaticProps() {
     `,
   });
 
-
   return {
     props: {
       posts: postsData.posts,
@@ -213,3 +206,30 @@ export async function getStaticProps() {
     },
   };
 }
+
+/* 
+
+
+
+      <div className="sm:grid sm:grid-cols-7 gap-3"> 
+        <div className="height-with-menu sm:col-span-3  sm:overflow-scroll md:col-span-2">
+          <div>
+            <AuthorBio
+              avatar={"https://api.lorem.space/image/face?hash=55350"}
+              name={"Paul Brats"}
+              bio={"I'm a software developer"}
+            />
+            <TagsSelect
+              tags={tags.data}
+              indicator
+              onClick={filterPosts}
+              totalPosts={posts.data.length}
+              selectedTag={selectedTag}
+            />
+          </div>
+          <RandomPost />
+        </div>
+        
+      </div>
+
+      */

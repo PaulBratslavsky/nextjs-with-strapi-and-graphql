@@ -27,14 +27,16 @@ export default function Slider({ data }) {
           id={data.id}
           className="carousel-item relative w-full hover:cursor-pointer"
         >
+          <div className={"image-container"}>
+            {/* <Image src={url} layout="fill" className={'image'} alt={title}/> */}
+          </div>
           <div className="image-wrapper">
             <Image
               src={url}
               alt={title}
               layout="intrinsic"
-              width={1920}
+              width={800}
               height={500}
-              className="w-full"
             />
           </div>
 
