@@ -86,7 +86,6 @@ export default function Home({ posts, tags }) {
             setSidebarOpen={setSidebarOpen}
           />
         )}
-        footer={<RandomPost />}
       >
         <div className="my-6">
           <Slider data={posts} />

@@ -78,9 +78,9 @@ export default function Layout({
                     </div>
                     {sidebar(setSidebarOpen)}
                   </div>
-                  <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
+                  { footer && <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
                     {footer}
-                  </div>
+                  </div> }
                 </Dialog.Panel>
               </Transition.Child>
               <div className="flex-shrink-0 w-14">
