@@ -2,10 +2,10 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function PostsNav({ current, postItems }) {
+export default function PostsNav({ current, postItems, setSidebarOpen }) {
   const router = useRouter();
   return (
-    <div className="my-6">
+    <div className="my-6 mx-3">
       <div>
         <button
           className="btn btn-primary w-full mb-3"
@@ -21,9 +21,12 @@ export default function PostsNav({ current, postItems }) {
               key={post.id}
               className={current === post.attributes.slug ? "bordered" : ""}
             >
-              <Link href={`/posts/${post.attributes.slug}`}>
+              <button onClick={() => {
+                router.push(`/posts/${post.attributes.slug}`)
+                setSidebarOpen(prevState => prevState === true && false)
+              }}>
                 <a className="rounded-r-md mb-2">{post.attributes.title}</a>
-              </Link>
+              </button>
             </li>
           );
         })}

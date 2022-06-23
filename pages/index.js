@@ -77,19 +77,20 @@ export default function Home({ posts, tags }) {
 
       <Layout
         header={(setSidebarOpen) => <Header setSidebarOpen={setSidebarOpen} />}
-        sidebar={
+        sidebar={(setSidebarOpen) => (
           <MainPageSidebar
             posts={posts}
             tags={tags}
             filterPosts={filterPosts}
             selectedTag={selectedTag}
+            setSidebarOpen={setSidebarOpen}
           />
-        }
+        )}
         footer={<RandomPost />}
       >
         <div className="my-6">
           <Slider data={posts} />
-          <div className="grid mx-3 md:grid-cols-2 md:gap-3 md:mx-0 lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
+          <div className="grid mx-3 sm:grid-cols-2 sm:gap-2 md:grid-cols-1 md:gap-3 md:mx-0 lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
             {displayCardVertical(data)}
           </div>
         </div>
@@ -97,8 +98,6 @@ export default function Home({ posts, tags }) {
     </div>
   );
 }
-
-
 
 export async function getStaticProps() {
   const { data: postsData } = await client.query({
@@ -167,30 +166,3 @@ export async function getStaticProps() {
     },
   };
 }
-
-/* 
-
-
-
-      <div className="sm:grid sm:grid-cols-7 gap-3"> 
-        <div className="height-with-menu sm:col-span-3  sm:overflow-scroll md:col-span-2">
-          <div>
-            <AuthorBio
-              avatar={"https://api.lorem.space/image/face?hash=55350"}
-              name={"Paul Brats"}
-              bio={"I'm a software developer"}
-            />
-            <TagsSelect
-              tags={tags.data}
-              indicator
-              onClick={filterPosts}
-              totalPosts={posts.data.length}
-              selectedTag={selectedTag}
-            />
-          </div>
-          <RandomPost />
-        </div>
-        
-      </div>
-
-      */

@@ -28,16 +28,7 @@ export default function Slider({ data }) {
           className="carousel-item relative w-full hover:cursor-pointer"
         >
           <div className={"image-container"}>
-            {/* <Image src={url} layout="fill" className={'image'} alt={title}/> */}
-          </div>
-          <div className="image-wrapper">
-            <Image
-              src={url}
-              alt={title}
-              layout="intrinsic"
-              width={800}
-              height={500}
-            />
+            <Image src={url} layout="fill" className={'image'} alt={title}/>
           </div>
 
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
@@ -65,7 +56,7 @@ export default function Slider({ data }) {
   }
   return (
     <div className="relative">
-      <div className="carousel w-full mb-6 rounded-2xl">
+      <div className="carousel relative md:h-96 w-full mb-6 rounded-2xl">
         {renderSlider(data.data[selected], data.data.length)}
       </div>
     </div>

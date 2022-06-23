@@ -3,7 +3,8 @@ import React from "react";
 export default function TagsSelect({
   tags = [],
   indicator = false,
-  onClick,
+  filterPosts,
+  setSidebarOpen,
   totalPosts = 0,
   selectedTag = null,
 }) {
@@ -14,7 +15,10 @@ export default function TagsSelect({
         const hasCount = tag.attributes.hasOwnProperty("posts");
         return (
           <button
-            onClick={() => onClick(tag)}
+            onClick={() => {
+              setSidebarOpen(false);
+              filterPosts(tag);
+            }}
             key={tag.id}
             className="indicator mr-3 mb-3"
           >
@@ -23,7 +27,11 @@ export default function TagsSelect({
                 {tag.attributes.posts.data.length}
               </span>
             )}
-            <div className={`badge badge-lg ${isSelected ? "badge bg-stone-800" : "badge-outline"}`}>
+            <div
+              className={`badge badge-lg ${
+                isSelected ? "badge bg-stone-800" : "badge-outline"
+              }`}
+            >
               {tag.attributes.name}
             </div>
           </button>
@@ -31,7 +39,10 @@ export default function TagsSelect({
       })}
 
       <button
-        onClick={() => onClick(null)}
+        onClick={() => {
+          setSidebarOpen(false);
+          filterPosts(null);
+        }}
         key="all"
         className="indicator mr-3"
       >

@@ -1,7 +1,7 @@
 import AuthorBio from "../AuthorBio";
 import TagsSelect from "../TagsSelect";
 
-const MainPageSidebar = ({ posts, tags, filterPosts, selectedTag }) => (
+const MainPageSidebar = ({ posts, tags, filterPosts, selectedTag, setSidebarOpen }) => (
     <div>
       <AuthorBio
         avatar={"https://api.lorem.space/image/face?hash=55350"}
@@ -11,10 +11,10 @@ const MainPageSidebar = ({ posts, tags, filterPosts, selectedTag }) => (
       <TagsSelect
         tags={tags.data}
         indicator
-        onClick={filterPosts}
+        filterPosts={filterPosts}
         totalPosts={posts.data.length}
         selectedTag={selectedTag}
-      />
+        setSidebarOpen={setSidebarOpen}      />
     </div>
   );
 
