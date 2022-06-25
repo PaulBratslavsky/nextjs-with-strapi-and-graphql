@@ -72,10 +72,7 @@ export default function Layout({
                       </button>
                     </div>
                   </Transition.Child>
-                  <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-                    <div className="flex-shrink-0 flex items-center px-4">
-                     <span className="badge text-lg">#buildinpublic</span>
-                    </div>
+                  <div className="flex-1 h-0 pb-4 overflow-y-auto">
                     {sidebar(setSidebarOpen)}
                   </div>
                   { footer && <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
@@ -93,7 +90,7 @@ export default function Layout({
         <div className="hidden md:flex md:w-96 md:flex-col md:fixed md:inset-y-0">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white">
-            <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
+            <div className="flex-1 flex flex-col pb-4 overflow-y-auto">
               {logo && (
                 <div className="flex items-center flex-shrink-0 px-4">
                   <h2>logo here</h2>
