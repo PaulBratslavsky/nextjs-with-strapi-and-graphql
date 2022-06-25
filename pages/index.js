@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 import { gql } from "@apollo/client";
 import client from "../graphql-client";
 import Tags from "../components/Tags";
-import RandomPost from "../components/RandomPost";
 import Slider from "../components/Slider";
 import Layout from "../components/Layout";
 import Header from "../components/Header";

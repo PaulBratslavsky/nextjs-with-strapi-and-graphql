@@ -16,16 +16,20 @@ export default function PostsNav({ current, postItems, setSidebarOpen }) {
       </div>
       <ul className="menu bg-base-100">
         {postItems.map((post) => {
+          
+          const selected = current === post.attributes.slug;
+
           return (
             <li
               key={post.id}
-              className={current === post.attributes.slug ? "bordered" : ""}
+              className={selected ? "bordered" : ""}
             >
               <button onClick={() => {
                 router.push(`/posts/${post.attributes.slug}`)
                 setSidebarOpen(prevState => prevState === true && false)
-              }}>
-                <a className="rounded-r-md mb-2">{post.attributes.title}</a>
+              }}
+              className={selected ? "rounded-r-md mb-2 text-primary font-bold" : "rounded-md mb-2"}>
+                <a className="text-left	">{post.attributes.title}</a>
               </button>
             </li>
           );

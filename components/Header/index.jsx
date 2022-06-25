@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export default function Header({ setSidebarOpen }) {
@@ -23,8 +24,8 @@ export default function Header({ setSidebarOpen }) {
           </svg>
         </button>
       </div>
-      <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl">#buildinpublic</a>
+      <div className="ml-3 flex-1">
+        <Link href={"/"} className="btn btn-ghost normal-case text-xl">#buildinpublic</Link>
       </div>
       <div className="flex-none">
         <button className="btn btn-square btn-ghost">
