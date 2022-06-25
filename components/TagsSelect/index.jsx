@@ -8,6 +8,12 @@ export default function TagsSelect({
   totalPosts = 0,
   selectedTag = null,
 }) {
+
+  function handleTagSelect(data) {
+    { setSidebarOpen && setSidebarOpen(false) }
+    filterPosts(data);
+  }
+
   return (
     <div className="px-6 py-6">
       {tags.map((tag) => {
@@ -16,12 +22,7 @@ export default function TagsSelect({
 
         return (
           <button
-            onClick={() => {
-              {
-                setSidebarOpen && setSidebarOpen(false);
-              }
-              filterPosts(tag);
-            }}
+            onClick={() => handleTagSelect(tag)}
             key={tag.id}
             className="indicator mr-3 mb-3"
           >
@@ -42,12 +43,7 @@ export default function TagsSelect({
       })}
 
       <button
-        onClick={() => {
-          {
-            setSidebarOpen && setSidebarOpen(false);
-          }
-          filterPosts(null);
-        }}
+        onClick={() => handleTagSelect(null)}
         key="all"
         className="indicator mr-3"
       >
