@@ -13,10 +13,13 @@ export default function TagsSelect({
       {tags.map((tag) => {
         const isSelected = tag.id === selectedTag?.id;
         const hasCount = tag.attributes.hasOwnProperty("posts");
+
         return (
           <button
             onClick={() => {
-              setSidebarOpen(false);
+              {
+                setSidebarOpen && setSidebarOpen(false);
+              }
               filterPosts(tag);
             }}
             key={tag.id}
@@ -40,7 +43,9 @@ export default function TagsSelect({
 
       <button
         onClick={() => {
-          setSidebarOpen(false);
+          {
+            setSidebarOpen && setSidebarOpen(false);
+          }
           filterPosts(null);
         }}
         key="all"
