@@ -2,12 +2,16 @@ import AuthorBio from "../AuthorBio";
 import RandomPost from "../RandomPost";
 import TagsSelect from "../TagsSelect";
 
-const MainPageSidebar = ({ posts, tags, filterPosts, selectedTag, setSidebarOpen }) => (
-    <div>
+const MainPageSidebar = ({ posts, tags, bio, filterPosts, selectedTag, setSidebarOpen }) => {
+    
+    const { firstName, lastName, avatar, postCount } = bio.data;
+
+    return <div>
       <AuthorBio
-        avatar={"https://api.lorem.space/image/face?hash=55350"}
-        name={"Paul Brats"}
-        bio={"I'm a software developer"}
+        avatar={avatar.attributes.url}
+        name={`${firstName} ${lastName}`}
+        bio={""}
+        postCount={postCount}
       />
       <TagsSelect
         tags={tags.data}
@@ -18,6 +22,6 @@ const MainPageSidebar = ({ posts, tags, filterPosts, selectedTag, setSidebarOpen
         setSidebarOpen={setSidebarOpen}      />
         <RandomPost />
     </div>
-  );
+};
 
   export default MainPageSidebar;

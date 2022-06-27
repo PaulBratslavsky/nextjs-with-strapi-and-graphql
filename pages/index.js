@@ -13,9 +13,9 @@ import Header from "../components/Header";
 
 import MainPageSidebar from "../components/MainPageSidebar";
 
-export default function Home({ posts, tags }) {
+export default function Home({ posts, tags, bio }) {
   const router = useRouter();
-
+  
   const [selectedTag, setSelectedTag] = useState(null);
   const [postsData, setPostsData] = useState(posts);
 
@@ -77,9 +77,11 @@ export default function Home({ posts, tags }) {
       <Layout
         header={(setSidebarOpen) => <Header setSidebarOpen={setSidebarOpen} />}
         sidebar={(setSidebarOpen) => (
+          
           <MainPageSidebar
             posts={posts}
             tags={tags}
+            bio={bio}
             filterPosts={filterPosts}
             selectedTag={selectedTag}
             setSidebarOpen={setSidebarOpen}
@@ -157,10 +159,34 @@ export async function getStaticProps() {
     `,
   });
 
+  const { data: authorsData } = await client.query({
+    query: gql`
+      query {
+        authorsBio(id: 1) {
+          data {
+            id
+            firstName
+            lastName
+            bio
+            postCount
+
+            avatar {
+              id
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    `,
+  });
+
   return {
     props: {
       posts: postsData.posts,
       tags: tagsData.tags,
+      bio: authorsData.authorsBio
     },
   };
 }
