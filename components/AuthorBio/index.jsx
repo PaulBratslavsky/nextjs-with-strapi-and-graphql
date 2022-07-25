@@ -8,7 +8,7 @@ export default function AuthorBio({ name, bio, avatar, postCount }) {
     <div className="card w-auto bg-base-100">
       <figure>
         <div className="avatar">
-          <div className="w-64 mask mask-hexagon">
+          <div className="w-64 mask mask-hexagon m-6">
             <Image src={avatar} width={400} height={400} alt={name} />
           </div>
         </div>
