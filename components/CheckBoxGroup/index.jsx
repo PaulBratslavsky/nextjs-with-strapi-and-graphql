@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import CheckBox from "../Checkbox";
-
+import CheckBox from "../CheckBox";
 export default function CheckBoxGroup({
   name = "No group name provided",
   options = [],
