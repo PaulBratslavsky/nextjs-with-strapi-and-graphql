@@ -159,6 +159,7 @@ export async function getStaticProps() {
     `,
   });
 
+  // TODO: Filter postCount to only show PUBLISHED posts
   const { data: authorsData } = await client.query({
     query: gql`
       query {
