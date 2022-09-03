@@ -51,7 +51,7 @@ export default function Home({ postsGroup, tags, bio }) {
               height={225}
             />
           </figure>
-          <div className="card-body">
+          <div className="card-body px-4 pb-4">
             <h2 className="card-title text-primary">{post.attributes.title}</h2>
             
             <Tags tags={post.attributes.tags.data} selected={selectedTag} />
