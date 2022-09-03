@@ -27,13 +27,13 @@ export default function TagsSelect({
             className="indicator mr-5 mb-5"
           >
             {indicator && hasCount && (
-              <span className="indicator-item badge  badge-sm badge-secondary">
+              <span className="indicator-item badge  badge-sm badge-warning">
                 {tag.attributes.posts.data.length}
               </span>
             )}
             <span
               className={`badge badge-lg ${
-                isSelected ? "badge bg-secondary text-neutral" : "badge-outline"
+                isSelected ? "badge bg-primary text-neutral" : "badge-outline"
               }`}
             >
               {tag.attributes.name}
@@ -48,7 +48,7 @@ export default function TagsSelect({
         className="indicator mr-3"
       >
         {indicator && (
-          <span className="indicator-item badge  badge-sm badge-secondary">
+          <span className="indicator-item badge  badge-sm badge-warning">
             {totalPosts}
           </span>
         )}

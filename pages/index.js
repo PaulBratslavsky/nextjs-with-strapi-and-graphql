@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
+import Link from 'next/link';
 
 import { useRouter } from "next/router";
 
@@ -56,16 +57,7 @@ export default function Home({ postsGroup, tags, bio }) {
             
             <Tags tags={post.attributes.tags.data} selected={selectedTag} />
 
-            <p>{post.attributes.description}</p>
-
-            <div className="card-actions justify-end">
-              <button
-                className="btn btn-primary"
-                onClick={() => router.push("/posts/" + post.attributes.slug)}
-              >
-                Read More
-              </button>
-            </div>
+            <p>{post.attributes.description}<span className='text-warning ml-2'><Link href={"/posts/" + post.attributes.slug}>[ read more ]</Link></span></p>
           </div>
         </div>
       );
