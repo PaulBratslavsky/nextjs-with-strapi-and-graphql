@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Header({ setSidebarOpen }) {
   return (
-    <div className="navbar bg-stone-800 text-neutral-content rounded-2xl">
+    <div className="navbar bg-stone-800 text-neutral-content rounded-2xl md:hidden">
       <div className="flex-none md:hidden">
         <button
           className="btn btn-square btn-ghost"

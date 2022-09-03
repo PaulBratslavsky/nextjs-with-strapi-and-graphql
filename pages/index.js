@@ -15,8 +15,6 @@ import Header from "../components/Header";
 import MainPageSidebar from "../components/MainPageSidebar";
 
 export default function Home({ postsGroup, tags, bio }) {
-  const router = useRouter();
-
   const posts = postsGroup.data.attributes.posts_in_group;
 
   const [selectedTag, setSelectedTag] = useState(null);
@@ -85,7 +83,7 @@ export default function Home({ postsGroup, tags, bio }) {
           />
         )}
       >
-        <div className="my-6">
+        <div>
           <Slider data={posts} />
           <div className="grid mx-3 sm:grid-cols-2 sm:gap-2 md:grid-cols-1 md:gap-3 md:mx-0 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 lg:gap-4">
             {displayCardVertical(data)}
@@ -172,7 +170,6 @@ export async function getStaticProps() {
     `,
   });
 
-  // TODO: Filter postCount to only show PUBLISHED posts
   const { data: authorsData } = await client.query({
     query: gql`
       query {

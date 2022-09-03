@@ -66,7 +66,7 @@ export default function Posts({ post = undefined, postsGroup = [], tagsData }) {
           />
         )}
       >
-        <main className="col-span-4 my-6 px-6 md:px-0">
+        <main className="col-span-4 px-6 md:px-0">
           <div className="card-body p-0">
             <div className="hero h-full rounded-xl shadow-lg overflow-hidden">
               <div className="hero-overlay bg-base-200"></div>
