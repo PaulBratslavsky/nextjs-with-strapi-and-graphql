@@ -37,8 +37,12 @@ function selelctCoponent(components) {
   });
 }
 
-export default function Posts({ post = undefined, postItems = [], tagsData }) {
+export default function Posts({ post = undefined, postsGroup = [], tagsData }) {
   const router = useRouter();
+
+  const posts = postsGroup.data.attributes.posts_in_group.data;
+  console.log(posts);
+
 
   const { Components, featuredImage, title, description, tags } =
     post.post.data.attributes;
@@ -56,7 +60,7 @@ export default function Posts({ post = undefined, postItems = [], tagsData }) {
         sidebar={(setSidebarOpen) => (
           <PostsNav
             current={router.query.slug}
-            postItems={postItems.posts.data}
+            postItems={posts}
             setSidebarOpen={setSidebarOpen}
             tags={tagsData}
           />
@@ -194,21 +198,52 @@ export async function getStaticProps({ params }) {
     `,
   });
 
-  const { data: postItems } = await client.query({
+  const { data: postsData } = await client.query({
+    // query: gql`
+    //   query {
+    //     posts {
+    //       data {
+    //         id
+    //         attributes {
+    //           title
+    //           slug
+
+    //           tags {
+    //             data {
+    //               id
+    //               attributes {
+    //                 name
+    //               }
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // `,
+
     query: gql`
       query {
-        posts {
+        postGroup(id: 4) {
           data {
             id
             attributes {
               title
-              slug
-
-              tags {
+              posts_in_group {
                 data {
                   id
                   attributes {
-                    name
+                    title
+                    slug
+
+                    tags {
+                      data {
+                        id
+                        attributes {
+                          name
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -222,16 +257,16 @@ export async function getStaticProps({ params }) {
   const { data: tagsData } = await client.query({
     query: gql`
       query {
-        tags {
+        tags(filters: { posts: { post_group: { id: { eq: 4 } } } }) {
           data {
             id
             attributes {
               name
-              posts {
-                data {
-                  id
-                }
-              }
+            }
+          }
+          meta {
+            pagination {
+              pageCount
             }
           }
         }
@@ -242,7 +277,7 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       post: post,
-      postItems: postItems,
+      postsGroup: postsData.postGroup,
       tagsData: tagsData.tags,
     },
   };

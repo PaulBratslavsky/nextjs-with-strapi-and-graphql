@@ -1,5 +1,4 @@
 import AuthorBio from "../AuthorBio";
-import RandomPost from "../RandomPost";
 import TagsSelect from "../TagsSelect";
 
 const MainPageSidebar = ({ posts, tags, bio, filterPosts, selectedTag, setSidebarOpen }) => {
@@ -20,7 +19,6 @@ const MainPageSidebar = ({ posts, tags, bio, filterPosts, selectedTag, setSideba
         totalPosts={posts.data.length}
         selectedTag={selectedTag}
         setSidebarOpen={setSidebarOpen}      />
-        <RandomPost />
     </div>
 };
 

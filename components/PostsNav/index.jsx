@@ -43,10 +43,9 @@ export default function PostsNav({ current, postItems, setSidebarOpen, tags }) {
         selectedTag={selectedTag}
       />
       
-      <ul className="menu bg-base-100">
+      <ul className="menu bg-base-200">
         {postsData.map((post) => {
           const selected = current === post.attributes.slug;
-
           return (
             <li key={post.id} className={selected ? "bordered" : ""}>
               <button

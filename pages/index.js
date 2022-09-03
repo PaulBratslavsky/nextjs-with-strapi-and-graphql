@@ -13,13 +13,18 @@ import Header from "../components/Header";
 
 import MainPageSidebar from "../components/MainPageSidebar";
 
-export default function Home({ posts, tags, bio }) {
+export default function Home({ postsGroup, tags, bio }) {
   const router = useRouter();
+
+  const posts = postsGroup.data.attributes.posts_in_group;
 
   const [selectedTag, setSelectedTag] = useState(null);
   const [postsData, setPostsData] = useState(posts);
 
   const { data } = postsData;
+
+  //TODO: Figure a better place to put this
+  if (!data.length) return <div>There are no posts yet.  Comeback soon.</div>;
 
   function filterPosts(tag) {
     setSelectedTag(tag);
@@ -47,7 +52,7 @@ export default function Home({ posts, tags, bio }) {
             />
           </figure>
           <div className="card-body">
-            <h2 className="card-title">{post.attributes.title}</h2>
+            <h2 className="card-title text-primary">{post.attributes.title}</h2>
             <p>{post.attributes.description}</p>
 
             <Tags tags={post.attributes.tags.data} selected={selectedTag} />
@@ -88,8 +93,8 @@ export default function Home({ posts, tags, bio }) {
         )}
       >
         <div className="my-6">
-          <Slider data={posts} />          
-          <div className="grid mx-3 sm:grid-cols-2 sm:gap-2 md:grid-cols-1 md:gap-3 md:mx-0 lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
+          <Slider data={posts} />
+          <div className="grid mx-3 sm:grid-cols-2 sm:gap-2 md:grid-cols-1 md:gap-3 md:mx-0 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 lg:gap-4">
             {displayCardVertical(data)}
           </div>
         </div>
@@ -100,37 +105,77 @@ export default function Home({ posts, tags, bio }) {
 
 export async function getStaticProps() {
   const { data: postsData } = await client.query({
+    // query: gql`
+    //   query {
+    //     posts {
+    //       data {
+    //         id
+    //         attributes {
+    //           title
+    //           slug
+    //           description
+
+    //           tags {
+    //             data {
+    //               id
+    //               attributes {
+    //                 name
+    //               }
+    //             }
+    //           }
+
+    //           featuredImage {
+    //             data {
+    //               attributes {
+    //                 url
+    //               }
+    //             }
+    //           }
+    //         }
+    //       }
+    //       meta {
+    //         pagination {
+    //           total
+    //         }
+    //       }
+    //     }
+    //   }
+    // `,
+
     query: gql`
       query {
-        posts {
+        postGroup(id: 4) {
           data {
             id
             attributes {
               title
-              slug
-              description
-
-              tags {
+              posts_in_group {
                 data {
                   id
                   attributes {
-                    name
-                  }
-                }
-              }
+                    title
+                    slug
+                    description
 
-              featuredImage {
-                data {
-                  attributes {
-                    url
+                    tags {
+                      data {
+                        id
+                        attributes {
+                          name
+                        }
+                      }
+                    }
+
+                    featuredImage {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
                   }
                 }
               }
-            }
-          }
-          meta {
-            pagination {
-              total
             }
           }
         }
@@ -141,16 +186,24 @@ export async function getStaticProps() {
   const { data: tagsData } = await client.query({
     query: gql`
       query {
-        tags {
+        tags(filters: {
+          posts:{
+            post_group: {
+              id: {
+                eq: 4
+              }
+            }
+          }
+        }) {
           data {
             id
             attributes {
               name
-              posts {
-                data {
-                  id
-                }
-              }
+            }
+          }
+          meta {
+            pagination {
+              pageCount
             }
           }
         }
@@ -184,7 +237,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      posts: postsData.posts,
+      postsGroup: postsData.postGroup,
       tags: tagsData.tags,
       bio: authorsData.authorsBio,
     },
