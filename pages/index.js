@@ -53,9 +53,10 @@ export default function Home({ postsGroup, tags, bio }) {
           </figure>
           <div className="card-body">
             <h2 className="card-title text-primary">{post.attributes.title}</h2>
-            <p>{post.attributes.description}</p>
-
+            
             <Tags tags={post.attributes.tags.data} selected={selectedTag} />
+
+            <p>{post.attributes.description}</p>
 
             <div className="card-actions justify-end">
               <button
@@ -105,43 +106,6 @@ export default function Home({ postsGroup, tags, bio }) {
 
 export async function getStaticProps() {
   const { data: postsData } = await client.query({
-    // query: gql`
-    //   query {
-    //     posts {
-    //       data {
-    //         id
-    //         attributes {
-    //           title
-    //           slug
-    //           description
-
-    //           tags {
-    //             data {
-    //               id
-    //               attributes {
-    //                 name
-    //               }
-    //             }
-    //           }
-
-    //           featuredImage {
-    //             data {
-    //               attributes {
-    //                 url
-    //               }
-    //             }
-    //           }
-    //         }
-    //       }
-    //       meta {
-    //         pagination {
-    //           total
-    //         }
-    //       }
-    //     }
-    //   }
-    // `,
-
     query: gql`
       query {
         postGroup(id: 4) {
@@ -199,6 +163,11 @@ export async function getStaticProps() {
             id
             attributes {
               name
+              posts(filters: { post_group: { id: { eq: 4 } } }) {
+                data {
+                  id
+                }
+              }
             }
           }
           meta {
@@ -221,7 +190,6 @@ export async function getStaticProps() {
             firstName
             lastName
             bio
-            postCount
 
             avatar {
               id

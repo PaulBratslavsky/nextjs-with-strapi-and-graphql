@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 
 export default function AuthorBio({ name, bio, avatar, postCount }) {
-  console.log(avatar, "why", postCount);
 
   return (
     <div className="card w-auto bg-base-200">

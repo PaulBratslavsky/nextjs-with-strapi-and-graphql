@@ -3,14 +3,14 @@ import TagsSelect from "../TagsSelect";
 
 const MainPageSidebar = ({ posts, tags, bio, filterPosts, selectedTag, setSidebarOpen }) => {
     
-    const { firstName, lastName, avatar, postCount } = bio.data;
+    const { firstName, lastName, avatar, } = bio.data;
 
     return <div className='bg-base-200'>
       <AuthorBio
         avatar={avatar.attributes.url}
         name={`${firstName} ${lastName}`}
         bio={""}
-        postCount={postCount}
+        postCount={posts.data.length}
       />
       <TagsSelect
         tags={tags.data}

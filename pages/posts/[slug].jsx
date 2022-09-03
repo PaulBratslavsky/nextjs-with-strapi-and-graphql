@@ -41,8 +41,6 @@ export default function Posts({ post = undefined, postsGroup = [], tagsData }) {
   const router = useRouter();
 
   const posts = postsGroup.data.attributes.posts_in_group.data;
-  console.log(posts);
-
 
   const { Components, featuredImage, title, description, tags } =
     post.post.data.attributes;
@@ -262,6 +260,11 @@ export async function getStaticProps({ params }) {
             id
             attributes {
               name
+              posts(filters: { post_group: { id: { eq: 4 } } }) {
+                data {
+                  id
+                }
+              }
             }
           }
           meta {

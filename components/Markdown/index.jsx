@@ -17,6 +17,7 @@ export default function Markdown({ data }) {
     ul: (props) => <ul className="pl-5 my-3 ">{props.children}</ul>,
     li: (props) => <li className="my-1 list-disc text-lg text-current">{props.children}</li>,
     pre: (props) => <pre className="p-6">{props.children}</pre>,
+    strong: (props) => <strong className="font-bold text-warning">{props.children}</strong>,
 
   };
 
