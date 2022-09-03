@@ -25,7 +25,7 @@ export default function PostsNav({ current, postItems, setSidebarOpen, tags }) {
   }
 
   return (
-    <div className="my-6 mx-3">
+    <div className=" py-6 px-3">
       <div>
         <button
           className="btn btn-primary w-full mb-3"

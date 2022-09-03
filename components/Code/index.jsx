@@ -9,7 +9,7 @@ export default function Code({ data }) {
 
   return (
     <div className="my-6">
-      <h2 className="my-6 text-slate-800 text-2xl">{data.name}</h2>
+      <h2 className="my-6 text-current text-2xl">{data.name}</h2>
 
       { data.src && <div className="badge badge-secondary badge-lg mb-3">`{data.src}`</div>
 }

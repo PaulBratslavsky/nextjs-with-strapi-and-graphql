@@ -24,20 +24,20 @@ export default function TagsSelect({
           <button
             onClick={() => handleTagSelect(tag)}
             key={tag.id}
-            className="indicator mr-3 mb-3"
+            className="indicator mr-5 mb-5"
           >
             {indicator && hasCount && (
               <span className="indicator-item badge  badge-sm badge-secondary">
                 {tag.attributes.posts.data.length}
               </span>
             )}
-            <div
+            <span
               className={`badge badge-lg ${
-                isSelected ? "badge bg-stone-800" : "badge-outline"
+                isSelected ? "badge bg-secondary text-neutral" : "badge-outline"
               }`}
             >
               {tag.attributes.name}
-            </div>
+            </span>
           </button>
         );
       })}
@@ -54,7 +54,7 @@ export default function TagsSelect({
         )}
         <div
           className={`badge badge-lg ${
-            selectedTag === null ? "badge bg-stone-800" : "badge-outline"
+            selectedTag === null ? "badge bg-primary text-neutral" : "badge-outline"
           }`}
         >
           All

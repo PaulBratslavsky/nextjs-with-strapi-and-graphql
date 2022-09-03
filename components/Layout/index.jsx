@@ -89,7 +89,7 @@ export default function Layout({
         {/* Static sidebar for desktop */}
         <div className="hidden md:flex md:w-96 md:flex-col md:fixed md:inset-y-0">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white">
+          <div className="flex-1 flex flex-col min-h-0 border-r border-base-100 bg-base-200">
             <div className="flex-1 flex flex-col pb-4 overflow-y-auto">
               {logo && (
                 <div className="flex items-center flex-shrink-0 px-4">
@@ -112,7 +112,7 @@ export default function Layout({
               <div className="hidden md:block mx-auto px-4 sm:px-6 md:px-8">
                 {header(setSidebarOpen)}
               </div>
-              <div className=" mx-auto px-4 sm:px-6 md:px-8">
+              <div className=" mx-auto px-4 sm:px-6 md:px-8 bg-base-100">
                 {content || (children && children) || content}
               </div>
             </div>
