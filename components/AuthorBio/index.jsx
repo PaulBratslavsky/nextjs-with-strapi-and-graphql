@@ -5,7 +5,7 @@ export default function AuthorBio({ name, bio, avatar, postCount }) {
   console.log(avatar, "why", postCount);
 
   return (
-    <div className="card w-auto bg-base-100">
+    <div className="card w-auto bg-base-200">
       <figure>
         <div className="avatar">
           <div className="w-64 mask mask-hexagon m-6">

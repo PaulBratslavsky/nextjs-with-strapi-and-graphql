@@ -6,7 +6,7 @@ const MainPageSidebar = ({ posts, tags, bio, filterPosts, selectedTag, setSideba
     
     const { firstName, lastName, avatar, postCount } = bio.data;
 
-    return <div>
+    return <div className='bg-base-200'>
       <AuthorBio
         avatar={avatar.attributes.url}
         name={`${firstName} ${lastName}`}
