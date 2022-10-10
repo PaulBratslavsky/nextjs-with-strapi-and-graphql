@@ -2,6 +2,7 @@ import { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 
 import Input from "../Input";
+import { useEffect } from "react";
 
 const INITIAL_FORM_DATA = {
   firstName: "",
@@ -12,7 +13,10 @@ const INITIAL_FORM_DATA = {
 
 const INITIAL_FORM_ERRORS = {
   firstName: false,
-  email: false,
+  email: {
+    error: false,
+    message: null,
+  },
   gitHubLink: false,
   note: false,
 };
@@ -47,7 +51,18 @@ export default function CommunityForm() {
   const [formError, setFormError] = useState(INITIAL_FORM_ERRORS);
   const [JoinCommunity, { data, error, loading }] = useMutation(JOIN_COMMUNITY);
 
-  console.log(data, error, loading);
+  // TODO: Probably a better way to do this
+  useEffect(() => {
+    if (error?.message === "This attribute must be unique") {
+      setFormError((prev) => ({
+        ...prev,
+        email: {
+          error: true,
+          message: "This email has already been used.",
+        },
+      }));
+    }
+  }, [error]);
 
   function handleInputChange(event) {
     const { name, value } = event.target;
@@ -56,20 +71,44 @@ export default function CommunityForm() {
 
   function validateGeneric(text, name) {
     if (text.length === 0) {
-      setFormError((prevState) => ({ ...prevState, [name]: true }));
+      setFormError((prevState) => ({
+        ...prevState,
+        [name]: {
+          error: true,
+          message: "This field is required.",
+        },
+      }));
       return true;
     } else {
-      setFormError((prevState) => ({ ...prevState, [name]: false }));
+      setFormError((prevState) => ({
+        ...prevState,
+        [name]: {
+          error: false,
+          message: null,
+        },
+      }));
       return false;
     }
   }
 
   function validateEmail(email) {
     if (!isRegexValid(email, checkURLRegex)) {
-      setFormError((prevState) => ({ ...prevState, email: true }));
+      setFormError((prevState) => ({
+        ...prevState,
+        email: {
+          error: true,
+          message: "Please enter a valid email.",
+        },
+      }));
       return true;
     } else {
-      setFormError((prevState) => ({ ...prevState, email: false }));
+      setFormError((prevState) => ({
+        ...prevState,
+        email: {
+          error: false,
+          message: "",
+        },
+      }));
       return false;
     }
   }
@@ -134,7 +173,7 @@ export default function CommunityForm() {
           onChange={handleInputChange}
           onBlur={(e) => validateGeneric(e.target.value, "firstName")}
           value={formData.firstName}
-          error={formError.firstName && "Please provide a first name"}
+          error={formError.firstName.error && formError.firstName.message}
         />
 
         <Input
@@ -146,7 +185,7 @@ export default function CommunityForm() {
           onChange={handleInputChange}
           onBlur={(e) => validateEmail(e.target.value, "email")}
           value={formData.email}
-          error={formError.email && "Please provide a valid email"}
+          error={formError.email.error && formError.email.message}
         />
 
         <Input
@@ -185,7 +224,7 @@ export default function CommunityForm() {
             value="Submit"
             onClick={hadleFormSubmit}
           >
-            {loading ? "Submitting..." : "submiting"}
+            {loading ? "Submitting..." : "Submit"}
           </button>
         </div>
       </fieldset>
