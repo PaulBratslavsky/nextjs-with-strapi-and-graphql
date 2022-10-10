@@ -1,6 +1,6 @@
 import AuthorBio from "../AuthorBio";
+import CommunityForm from '../CommunityForm';
 import TagsSelect from "../TagsSelect";
-import CommunityForm from "../CommunityForm";
 
 const MainPageSidebar = ({ posts, tags, bio, filterPosts, selectedTag, setSidebarOpen }) => {
     
@@ -21,7 +21,7 @@ const MainPageSidebar = ({ posts, tags, bio, filterPosts, selectedTag, setSideba
         selectedTag={selectedTag}
         setSidebarOpen={setSidebarOpen}      />
         <CommunityForm />
-    </div>
+ </div>
 };
 
   export default MainPageSidebar;
