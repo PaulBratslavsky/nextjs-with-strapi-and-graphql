@@ -62,6 +62,11 @@ export default function CommunityForm() {
         },
       }));
     }
+
+    if (data) {
+      setFormData(INITIAL_FORM_DATA);
+      setFormError(INITIAL_FORM_ERRORS);
+    }
   }, [error]);
 
   function handleInputChange(event) {
@@ -146,7 +151,6 @@ export default function CommunityForm() {
           },
         },
       });
-      alert("Form submitted successfully");
     }
   }
 
