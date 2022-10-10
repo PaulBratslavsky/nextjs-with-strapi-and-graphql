@@ -67,7 +67,7 @@ export default function CommunityForm() {
       setFormData(INITIAL_FORM_DATA);
       setFormError(INITIAL_FORM_ERRORS);
     }
-  }, [error]);
+  }, [error, data]);
 
   function handleInputChange(event) {
     const { name, value } = event.target;
