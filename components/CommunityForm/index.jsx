@@ -49,7 +49,6 @@ export default function CommunityForm() {
 
   console.log(data, error, loading);
 
-
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
@@ -105,7 +104,7 @@ export default function CommunityForm() {
             firstName: formData.firstName,
             gitHubLink: formData.gitHubLink,
             note: formData.note || null,
-          }
+          },
         },
       });
       alert("Form submitted successfully");
